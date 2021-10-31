@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const { MongoClient } = require('mongodb');
-
+const ObjectId = require('mongodb').ObjectId
 require('dotenv').config();
 
 const app = express();
@@ -18,16 +18,28 @@ async function run () {
   try{
     await client.connect()
 
-    const database = client.db("secure_travel")
+    const database = client.db('secure_travel')
     const planCollection = database.collection('plans')
     
-    // GET API
+    // Get api 
     app.get('/plans', async(req,res)=>{
-      // const cursor = planCollection.find({})
-      // const plans = await cursor.toArray()
-      res.send('post hitted ')
-      console.log('hit the post');
+      const cursor = planCollection.find({})
+      const plans = await cursor.toArray()
+      res.send(plans)
     })
+    // Post  API
+    app.post('/plans', async(req,res)=>{
+      const plans = req.body
+      const result = await planCollection.insertOne(plans)
+      res.json(result)
+    })
+    // get  single  api
+    // app.get('plans/:id',async (req,res)=>{
+    //   const id = req.params.id
+    //   const query = {_id: ObjectId(id)}
+    //   const result = await planCollection.findOne(query)
+    //   res.json(result)
+    // })
   }
   finally{
     // await client.close()
