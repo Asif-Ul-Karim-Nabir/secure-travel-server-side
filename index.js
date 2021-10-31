@@ -22,12 +22,12 @@ async function run () {
     const planCollection = database.collection('plans')
     
     // GET API
-    // app.get('/plans', async(req,res)=>{
-    //   const cursor = planCollection.find({})
-    //   const plans = await cursor.toArray()
-    //   res.json(plans)
-    //   console.log(result);
-    // })
+    app.get('/plans', async(req,res)=>{
+      // const cursor = planCollection.find({})
+      // const plans = await cursor.toArray()
+      res.send('post hitted ')
+      console.log('hit the post');
+    })
   }
   finally{
     // await client.close()
